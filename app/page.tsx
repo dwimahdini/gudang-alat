@@ -19,7 +19,7 @@ async function Konten() {
   const { data, error } = await supabase
     .from("tools")
     .select(
-      "id, code, status, loans(id, borrowed_at, due_at, returned_at, return_condition, note, technicians(name, department))",
+      "id, name, code, status, loans(id, borrowed_at, due_at, returned_at, return_condition, note, technicians(name, department))",
     )
     .eq("active", true);
 
@@ -40,9 +40,10 @@ async function Konten() {
 
     return {
       id: t.id,
+      name: t.name,
       code: t.code,
       status,
-      loadId: aktif?.id,
+      loanId: aktif?.id,
       pemegang: aktif?.technicians?.name,
       bagian: aktif?.technicians?.department,
       sejak: aktif ? waktuRelatif(aktif.borrowed_at, now) : undefined,

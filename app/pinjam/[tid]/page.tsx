@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import PilihJenisAlat from "@/components/PilihJenisAlat";
 
 async function Daftar({ params }: { params: Promise<{ tid: string }> }) {
   const { tid } = await params;
@@ -9,7 +10,7 @@ async function Daftar({ params }: { params: Promise<{ tid: string }> }) {
     supabase.from("technicians").select("name").eq("id", tid).single(),
     supabase
       .from("tools")
-      .select("id, code, loans(returned_at)")
+      .select("id, name, code, loans(returned_at)")
       .eq("active", true)
       .eq("status", "ok")
       .order("code"),
@@ -35,17 +36,7 @@ async function Daftar({ params }: { params: Promise<{ tid: string }> }) {
       <p className="mt-2 text-lg text-slate-700">
         Pilihan hanya menampilkan alat yang tersedia.
       </p>
-      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {tersedia.map((a) => (
-          <Link
-            key={a.id}
-            href={`/pinjam/${tid}/${a.id}`}
-            className="flex min-h-24 items-center justify-center rounded-xl border-2 border-green-700 bg-green-50 p-5 text-center text-2xl font-bold text-green-950 shadow-sm hover:bg-green-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-          >
-            {a.code}
-          </Link>
-        ))}
-      </div>
+      <PilihJenisAlat tid={tid} tools={tersedia} />
       {tersedia.length === 0 && (
         <p className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-5 text-lg text-slate-800">
           Tidak ada alat yang tersedia.

@@ -2,18 +2,19 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { waktuRelatif } from "@/lib/status";
+import PilihPengembalian from "@/components/PilihPengembalian";
 
 type Baris = {
   id: string;
   borrowed_at: string;
-  tools: { code: string } | null;
+  tools: { name: string; code: string } | null;
   technicians: { name: string; department: string } | null;
 };
 
 async function Daftar() {
   const { data, error } = await supabase
     .from("loans")
-    .select("id, borrowed_at, tools(code), technicians(name, department)")
+    .select("id, borrowed_at, tools(name, code), technicians(name, department)")
     .is("returned_at", null)
     .order("borrowed_at");
 
@@ -30,21 +31,16 @@ async function Daftar() {
     );
 
   return (
-    <div className="mt-5 space-y-3">
-      {baris.map((b) => (
-        <Link
-          key={b.id}
-          href={`/kembali/${b.id}`}
-          className="block rounded-xl border-2 border-blue-600 bg-blue-50 p-4 shadow-sm hover:bg-blue-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:p-5"
-        >
-          <p className="text-2xl font-bold text-blue-950">{b.tools?.code}</p>
-          <p className="mt-1 text-lg text-slate-900 sm:text-xl">
-            Dipegang {b.technicians?.name} ({b.technicians?.department}) sejak{" "}
-            {waktuRelatif(b.borrowed_at, now)}
-          </p>
-        </Link>
-      ))}
-    </div>
+    <PilihPengembalian
+      pinjaman={baris.map((b) => ({
+        id: b.id,
+        jenis: b.tools?.name ?? b.tools?.code ?? "Alat",
+        code: b.tools?.code ?? "Kode alat tidak tersedia",
+        pemegang: b.technicians?.name ?? "-",
+        bagian: b.technicians?.department ?? "-",
+        sejak: waktuRelatif(b.borrowed_at, now),
+      }))}
+    />
   );
 }
 

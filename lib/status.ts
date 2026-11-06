@@ -2,6 +2,7 @@ export type Status = "tersedia" | "dipinjam" | "perlu_dicek" | "rusak";
 
 export type ItemAlat = {
   id: string;
+  name: string;
   code: string;
   status: Status;
   loanId?: string;
