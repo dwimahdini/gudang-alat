@@ -4,6 +4,7 @@ export type ItemAlat = {
   id: string;
   code: string;
   status: Status;
+  loanId?: string;
   pemegang?: string;
   bagian?: string;
   sejak?: string;
@@ -26,3 +27,16 @@ export const urutanStatus: Record<Status, number> = {
   dipinjam: 2,
   tersedia: 3,
 };
+
+export function formatTanggal(iso: string): string {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Jakarta",
+  })
+    .format(new Date(iso))
+    .replace(",", "");
+}

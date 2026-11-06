@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { ItemAlat, Status } from "@/lib/status";
 
 const label: Record<Status, { teks: string; ikon: string; kelas: string }> = {
@@ -102,6 +103,24 @@ export default function DaftarAlat({ items }: { items: ItemAlat[] }) {
                   {i.catatan ? ` · Catatan: ${i.catatan}` : ""}
                 </p>
               )}
+
+              <div className="flex flex-wrap gap-3 mt-3">
+                {(i.status === "dipinjam" || i.status === "perlu_dicek") && (
+                  <Link
+                    href={`/kembali/${i.loanId}`}
+                    className="px-5 py-2 rounded-lg bg-blue-700 text-white text-lg font-semibold"
+                  >
+                    Terima Kembali
+                  </Link>
+                )}
+                <Link
+                  href={`/riwayat/${i.id}`}
+                  className="px-5 py-2 rounded-lg border-2 border-gray-500 bg-white text-lg font-semibold"
+                >
+                  Riwayat
+                </Link>
+              </div>
+              
             </div>
           );
         })}
