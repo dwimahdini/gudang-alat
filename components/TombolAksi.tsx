@@ -35,13 +35,11 @@ export default function TombolAksi({
       <button
         type="submit"
         disabled={pending}
-        className={`px-5 py-2 rounded-lg text-lg font-semibold disabled:opacity-50 ${kelas}`}
+        className={`min-h-12 rounded-lg px-5 py-3 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:opacity-50 ${kelas}`}
       >
         {pending ? "Memproses..." : teks}
       </button>
-      {state.pesan && (
-        <p className="text-lg text-red-700 mt-1">{state.pesan}</p>
-      )}
+      {state.pesan && <p className="mt-2 text-lg text-red-800">{state.pesan}</p>}
     </form>
   );
 }

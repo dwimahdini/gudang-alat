@@ -15,7 +15,7 @@ export async function pinjamAlat(formData: FormData) {
     .eq("id", toolId)
     .single();
 
-  if (!tool || tool.status === "rusak") redirect("/gagal");
+  if (!tool || tool.status === "rusak") redirect("/?hasil=gagal");
 
   const dueAt = new Date(Date.now() + tool.due_hours * 3600 * 1000).toISOString();
 
@@ -28,12 +28,12 @@ export async function pinjamAlat(formData: FormData) {
 
   if (error) {
     // 23505 = alat sudah punya pinjaman aktif (dicegah index unik di database)
-    if (error.code === "23505") redirect("/gagal");
+    if (error.code === "23505") redirect("/?hasil=gagal");
     throw new Error(error.message);
   }
 
   revalidatePath("/");
-  redirect("/berhasil");
+  redirect("/?hasil=pinjam");
 }
 
 export async function kembalikanAlat(formData: FormData) {
@@ -41,7 +41,7 @@ export async function kembalikanAlat(formData: FormData) {
   const kondisi = String(formData.get("kondisi"));
   const catatan = String(formData.get("catatan") || "").trim();
 
-  if (kondisi !== "baik" && kondisi !== "rusak") redirect("/gagal");
+  if (kondisi !== "baik" && kondisi !== "rusak") redirect("/?hasil=gagal");
 
   const { data: loan, error } = await supabase
     .from("loans")
@@ -55,12 +55,12 @@ export async function kembalikanAlat(formData: FormData) {
     .select("tool_id")
     .single();
 
-  if (error || !loan) redirect("/gagal");
+  if (error || !loan) redirect("/?hasil=gagal");
 
   if (kondisi === "rusak") {
     await supabase.from("tools").update({ status: "rusak" }).eq("id", loan.tool_id);
   }
 
   revalidatePath("/");
-  redirect("/berhasil");
+  redirect("/?hasil=kembali");
 }

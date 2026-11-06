@@ -18,53 +18,72 @@ async function Konfirmasi({ params }: { params: P }) {
   ]);
 
   if (!teknisi || !alat)
-    return <p className="text-xl">Data tidak ditemukan.</p>;
+    return (
+      <p className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-5 text-lg text-slate-800">
+        Data tidak ditemukan.
+      </p>
+    );
 
   return (
-    <form action={pinjamAlat} className="mt-6">
+    <form action={pinjamAlat} className="mt-5">
       <input type="hidden" name="technicianId" value={tid} />
       <input type="hidden" name="toolId" value={toolId} />
 
-      <div className="border-2 border-gray-400 rounded-lg p-6 text-center">
-        <p className="text-3xl font-bold">
-          {teknisi.name} ({teknisi.department}) meminjam {alat.code}
+      <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 sm:p-6">
+        <p className="text-lg font-semibold text-slate-700">
+          Periksa detail peminjaman
         </p>
-        <p className="text-xl mt-2">
-          Batas kembali: {alat.due_hours} jam dari sekarang
+        <p className="mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">
+          {teknisi.name}
+        </p>
+        <p className="mt-1 text-lg text-slate-800">{teknisi.department}</p>
+        <div className="mt-4 rounded-lg border border-green-700 bg-green-50 p-4">
+          <p className="text-lg font-semibold text-green-950">Alat</p>
+          <p className="mt-1 text-2xl font-bold text-green-950">{alat.code}</p>
+        </div>
+        <p className="mt-4 text-lg text-slate-800">
+          Batas kembali:{" "}
+          <span className="font-bold">
+            {alat.due_hours} jam dari sekarang
+          </span>
         </p>
       </div>
 
-      <p className="text-2xl font-semibold mt-6">Dicatat oleh:</p>
-      <div className="flex flex-wrap gap-4 mt-2">
+      <fieldset className="mt-6">
+        <legend className="text-xl font-bold text-slate-950">
+          Peminjaman dicatat oleh
+        </legend>
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {["Pak Anto", "Petugas Malam"].map((n, i) => (
           <label
             key={n}
-            className="flex items-center gap-3 border-2 border-gray-400 rounded-lg p-4 text-2xl cursor-pointer"
+            className="flex min-h-16 cursor-pointer items-center gap-4 rounded-xl border-2 border-slate-300 bg-white p-4 text-lg font-semibold text-slate-950 hover:bg-slate-50 has-[:checked]:border-blue-700 has-[:checked]:bg-blue-50 focus-within:outline-4 focus-within:outline-offset-2 focus-within:outline-blue-700"
           >
             <input
               type="radio"
               name="petugas"
               value={n}
               defaultChecked={i === 0}
-              className="w-6 h-6"
+              className="h-6 w-6 accent-blue-700"
             />
             {n}
           </label>
         ))}
-      </div>
+        </div>
+      </fieldset>
 
-      <div className="flex gap-4 mt-8">
+      <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Link
           href="/"
-          className="px-8 py-4 rounded-lg border-2 border-gray-500 text-2xl"
+          className="inline-flex min-h-14 items-center justify-center rounded-lg border-2 border-slate-400 bg-white px-6 py-3 text-lg font-bold text-slate-950 hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700"
         >
-          BATAL
+          Batal
         </Link>
         <button
           type="submit"
-          className="px-8 py-4 rounded-lg bg-green-700 text-white text-2xl font-bold"
+          className="min-h-14 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700"
         >
-          YA, SIMPAN
+          Ya, simpan peminjaman
         </button>
       </div>
     </form>
@@ -73,11 +92,26 @@ async function Konfirmasi({ params }: { params: P }) {
 
 export default function Halaman({ params }: { params: P }) {
   return (
-    <main className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-4xl font-bold">Sudah benar?</h1>
-      <Suspense fallback={<p className="mt-4 text-xl">Memuat...</p>}>
-        <Konfirmasi params={params} />
-      </Suspense>
+    <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-3xl">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <p className="text-lg font-semibold text-slate-700">
+            Langkah terakhir
+          </p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+            Periksa peminjaman
+          </h1>
+          <Suspense
+            fallback={
+              <p className="mt-5 rounded-lg bg-slate-100 p-4 text-lg text-slate-800">
+                Memuat detail peminjaman...
+              </p>
+            }
+          >
+            <Konfirmasi params={params} />
+          </Suspense>
+        </section>
+      </div>
     </main>
   );
 }

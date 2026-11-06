@@ -2,21 +2,31 @@
 
 import { useActionState, useState } from "react";
 import { tambahTeknisi, tambahAlat, type Hasil } from "@/lib/kelola-actions";
+import Popup from "@/components/Popup";
 
 const awal: Hasil = { ok: true, pesan: "" };
 const daftarBagian = ["Mesin", "Listrik", "Utilitas", "Instrumen"];
 
 function Pesan({ h }: { h: Hasil }) {
+  const [ditutup, setDitutup] = useState<Hasil | null>(null);
+
   if (!h.pesan) return null;
+  if (h.perluKonfirmasi) {
+    return (
+      <p className="mt-4 rounded-lg bg-yellow-100 p-4 text-lg font-semibold text-yellow-950">
+        ⚠ {h.pesan}
+      </p>
+    );
+  }
+  if (ditutup === h) return null;
+
   return (
-    <p
-      className={`text-xl mt-4 font-semibold ${
-        h.ok ? "text-green-700" : "text-red-700"
-      }`}
-    >
-      {h.ok ? "✔ " : "⚠ "}
-      {h.pesan}
-    </p>
+    <Popup
+      ok={h.ok}
+      judul={h.ok ? "Berhasil disimpan" : "Tidak berhasil"}
+      teks={h.pesan}
+      onTutup={() => setDitutup(h)}
+    />
   );
 }
 
@@ -38,25 +48,35 @@ export function FormTeknisi() {
   return (
     <form
       action={formAction}
-      className="border-2 border-gray-400 rounded-lg p-5"
+      className="rounded-xl border border-slate-300 bg-slate-50 p-4 sm:p-5"
     >
-      <h2 className="text-2xl font-bold">+ Tambah Teknisi</h2>
+      <h2 className="text-xl font-bold text-slate-950 sm:text-2xl">
+        + Tambah teknisi
+      </h2>
 
-      <label className="block text-xl mt-4">Nama</label>
+      <label
+        htmlFor="nama-teknisi"
+        className="mt-4 block text-lg font-semibold text-slate-950"
+      >
+        Nama teknisi
+      </label>
       <input
+        id="nama-teknisi"
         name="nama"
         value={nama}
         onChange={(e) => setNama(e.target.value)}
-        className="w-full max-w-md border-2 border-gray-400 rounded-lg p-3 text-xl"
+        className="mt-2 w-full rounded-lg border-2 border-slate-400 bg-white p-3 text-lg text-slate-950 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:max-w-md"
       />
 
-      <p className="text-xl mt-4">Bagian</p>
-      <div className="flex flex-wrap gap-3 mt-2">
+      <p className="mt-4 text-lg font-semibold text-slate-950">Bagian</p>
+      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {daftarBagian.map((b) => (
           <label
             key={b}
-            className={`flex items-center gap-2 border-2 rounded-lg px-4 py-3 text-xl cursor-pointer ${
-              bagian === b ? "border-gray-900 bg-gray-100" : "border-gray-400"
+            className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-lg border-2 px-3 py-3 text-lg font-semibold text-slate-950 focus-within:outline-4 focus-within:outline-offset-2 focus-within:outline-blue-700 ${
+              bagian === b
+                ? "border-blue-700 bg-blue-50"
+                : "border-slate-400 bg-white hover:bg-slate-100"
             }`}
           >
             <input
@@ -65,20 +85,20 @@ export function FormTeknisi() {
               value={b}
               checked={bagian === b}
               onChange={() => setBagian(b)}
-              className="w-5 h-5"
+              className="h-5 w-5 accent-blue-700"
             />
             {b}
           </label>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-3 mt-5">
+      <div className="mt-5 flex flex-wrap gap-3">
         <button
           type="submit"
           disabled={pending}
-          className="px-8 py-3 rounded-lg bg-green-700 text-white text-xl font-bold disabled:opacity-50"
+          className="min-h-12 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
         >
-          {pending ? "Menyimpan..." : "SIMPAN"}
+          {pending ? "Menyimpan..." : "Simpan teknisi"}
         </button>
         {state.perluKonfirmasi && (
           <button
@@ -86,9 +106,9 @@ export function FormTeknisi() {
             name="paksa"
             value="1"
             disabled={pending}
-            className="px-8 py-3 rounded-lg bg-yellow-600 text-white text-xl font-bold"
+            className="min-h-12 rounded-lg bg-yellow-600 px-6 py-3 text-lg font-bold text-white hover:bg-yellow-700 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-yellow-700 disabled:opacity-50"
           >
-            TETAP TAMBAH
+            Tetap tambah
           </button>
         )}
       </div>
@@ -116,40 +136,54 @@ export function FormAlat() {
   return (
     <form
       action={formAction}
-      className="border-2 border-gray-400 rounded-lg p-5"
+      className="rounded-xl border border-slate-300 bg-slate-50 p-4 sm:p-5"
     >
-      <h2 className="text-2xl font-bold">+ Tambah Alat</h2>
-      <p className="text-lg text-gray-600 mt-1">
+      <h2 className="text-xl font-bold text-slate-950 sm:text-2xl">
+        + Tambah alat
+      </h2>
+      <p className="mt-1 text-lg text-slate-700">
         Kode dibuat otomatis (contoh: Bor Listrik 03). Untuk menambah unit alat
         yang sudah ada, ketik nama yang sama.
       </p>
 
-      <label className="block text-xl mt-4">Nama alat</label>
+      <label
+        htmlFor="nama-alat"
+        className="mt-4 block text-lg font-semibold text-slate-950"
+      >
+        Nama alat
+      </label>
       <input
+        id="nama-alat"
         name="nama"
         value={nama}
         onChange={(e) => setNama(e.target.value)}
-        className="w-full max-w-md border-2 border-gray-400 rounded-lg p-3 text-xl"
+        className="mt-2 w-full rounded-lg border-2 border-slate-400 bg-white p-3 text-lg text-slate-950 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:max-w-md"
       />
 
-      <label className="block text-xl mt-4">Jumlah unit</label>
+      <label
+        htmlFor="jumlah-alat"
+        className="mt-4 block text-lg font-semibold text-slate-950"
+      >
+        Jumlah unit
+      </label>
       <input
+        id="jumlah-alat"
         name="jumlah"
         type="number"
         min={1}
         max={20}
         value={jumlah}
         onChange={(e) => setJumlah(e.target.value)}
-        className="w-32 border-2 border-gray-400 rounded-lg p-3 text-xl"
+        className="mt-2 w-32 rounded-lg border-2 border-slate-400 bg-white p-3 text-lg text-slate-950 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
       />
 
       <div className="mt-5">
         <button
           type="submit"
           disabled={pending}
-          className="px-8 py-3 rounded-lg bg-green-700 text-white text-xl font-bold disabled:opacity-50"
+          className="min-h-12 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
         >
-          {pending ? "Menyimpan..." : "SIMPAN"}
+          {pending ? "Menyimpan..." : "Simpan alat"}
         </button>
       </div>
 

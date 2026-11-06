@@ -2,15 +2,27 @@ import Link from "next/link";
 
 export default function Berhasil() {
   return (
-    <main className="p-6 max-w-2xl mx-auto text-center">
-      <p className="text-6xl mt-16">✔</p>
-      <h1 className="text-4xl font-bold mt-4">Tersimpan</h1>
-      <Link
-        href="/"
-        className="inline-block mt-8 px-8 py-4 rounded-lg bg-gray-900 text-white text-2xl"
-      >
-        Kembali ke Beranda
-      </Link>
+    <main className="flex min-h-screen items-center bg-slate-50 px-4 py-8 text-slate-950 sm:px-6">
+      <section className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm sm:p-10">
+        <p
+          aria-hidden="true"
+          className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-4xl font-bold text-green-900"
+        >
+          ✔
+        </p>
+        <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl">
+          Tersimpan
+        </h1>
+        <p className="mt-2 text-lg text-slate-700">
+          Data berhasil dicatat.
+        </p>
+        <Link
+          href="/"
+          className="mt-7 inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-slate-900 px-6 py-3 text-lg font-bold text-white hover:bg-slate-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700 sm:w-auto"
+        >
+          Kembali ke Beranda
+        </Link>
+      </section>
     </main>
   );
 }

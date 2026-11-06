@@ -2,17 +2,19 @@ import Link from "next/link";
 
 export default function NavKelola({ aktif }: { aktif: "teknisi" | "alat" }) {
   const gaya = (a: boolean) =>
-    `px-6 py-3 rounded-lg text-xl border-2 ${
-      a ? "bg-gray-900 text-white border-gray-900" : "bg-white border-gray-400"
+    `inline-flex min-h-12 items-center justify-center rounded-lg border-2 px-4 py-2 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 ${
+      a
+        ? "border-slate-900 bg-slate-900 text-white"
+        : "border-slate-400 bg-white text-slate-950 hover:bg-slate-100"
     }`;
   return (
-    <div className="flex gap-3 mt-4">
+    <nav aria-label="Kelola data" className="mt-4 flex flex-wrap gap-2 sm:gap-3">
       <Link href="/kelola/teknisi" className={gaya(aktif === "teknisi")}>
-        Daftar Teknisi
+        Teknisi
       </Link>
       <Link href="/kelola/alat" className={gaya(aktif === "alat")}>
-        Daftar Alat
+        Alat
       </Link>
-    </div>
+    </nav>
   );
 }
