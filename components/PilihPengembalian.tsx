@@ -53,7 +53,7 @@ export default function PilihPengembalian({
                 aria-expanded={isTerbuka}
                 aria-controls={idRincian}
                 onClick={() => setTerbuka(isTerbuka ? null : kunci)}
-                className="min-h-12 rounded-lg border-2 border-blue-700 bg-blue-50 px-5 py-3 text-lg font-bold text-blue-950 hover:bg-blue-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                className="min-h-14 rounded-lg border-2 border-blue-700 bg-blue-50 px-5 py-3 text-lg font-bold text-blue-950 hover:bg-blue-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
               >
                 {isTerbuka ? "Tutup daftar unit" : `Lihat ${unit.length} unit`}
               </button>
@@ -80,9 +80,9 @@ export default function PilihPengembalian({
                     </div>
                     <Link
                       href={`/kembali/${item.id}`}
-                      className="inline-flex min-h-12 items-center justify-center rounded-lg bg-blue-700 px-5 py-3 text-lg font-bold text-white hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                      className="inline-flex min-h-14 items-center justify-center rounded-lg bg-blue-700 px-5 py-3 text-lg font-bold text-white hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
                     >
-                      Terima kembali →
+                      Terima kembali
                     </Link>
                   </article>
                 ))}

@@ -5,26 +5,57 @@ import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export async function pinjamAlat(formData: FormData) {
-  const toolId = String(formData.get("toolId"));
+  const toolIds = [
+    ...new Set(
+      formData
+        .getAll("toolId")
+        .map((id) => String(id).trim())
+        .filter(Boolean),
+    ),
+  ];
   const technicianId = String(formData.get("technicianId"));
   const petugas = String(formData.get("petugas") || "Pak Anto");
 
-  const { data: tool } = await supabase
+  if (toolIds.length === 0) redirect("/?hasil=gagal");
+
+  const { data, error: toolError } = await supabase
     .from("tools")
-    .select("due_hours, status")
-    .eq("id", toolId)
-    .single();
+    .select("id, name, due_hours, status, active, loans(returned_at)")
+    .in("id", toolIds)
+    .order("code");
 
-  if (!tool || tool.status === "rusak") redirect("/?hasil=gagal");
+  if (toolError) throw new Error(toolError.message);
+  const tools = (data ?? []) as unknown as {
+    id: string;
+    name: string;
+    due_hours: number;
+    status: string;
+    active: boolean;
+    loans: { returned_at: string | null }[];
+  }[];
+  const namaJenis = tools[0]?.name.trim().toLowerCase();
+  const toolsValid =
+    tools.length === toolIds.length &&
+    tools.every(
+      (tool) =>
+        tool.active &&
+        tool.status !== "rusak" &&
+        !tool.loans.some((loan) => loan.returned_at === null) &&
+        tool.name.trim().toLowerCase() === namaJenis,
+    );
 
-  const dueAt = new Date(Date.now() + tool.due_hours * 3600 * 1000).toISOString();
+  if (!toolsValid) redirect("/?hasil=gagal");
 
-  const { error } = await supabase.from("loans").insert({
-    tool_id: toolId,
+  const dueAt = new Date(
+    Date.now() + tools[0].due_hours * 3600 * 1000,
+  ).toISOString();
+  const pinjaman = tools.map((tool) => ({
+    tool_id: tool.id,
     technician_id: technicianId,
     due_at: dueAt,
     recorded_by: petugas,
-  });
+  }));
+  const { error } = await supabase.from("loans").insert(pinjaman);
 
   if (error) {
     // 23505 = alat sudah punya pinjaman aktif (dicegah index unik di database)

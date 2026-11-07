@@ -64,48 +64,48 @@ async function Konten() {
 
 export default function Beranda() {
   return (
-    <main className="min-h-screen w-full bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8 lg:px-8">
+    <main className="min-h-screen w-full bg-slate-50 px-4 py-4 text-slate-950 sm:px-6 sm:py-5 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <header className="rounded-2xl bg-slate-900 p-6 text-white shadow-sm sm:p-8">
-          <p className="text-lg font-semibold text-slate-200">Pos Gudang</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        <header className="rounded-xl border border-slate-300 bg-white p-4 text-slate-950 shadow-sm sm:p-5">
+          <p className="text-lg font-semibold text-slate-700">Pos Gudang</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
             Peminjaman Alat Gudang
           </h1>
           <Suspense fallback={null}>
             <PopupHasil />
           </Suspense>
-          <p className="mt-3 text-lg text-slate-200">
+          <p className="mt-2 text-lg text-slate-800">
             Lihat alat yang tersedia, sedang dipinjam, atau perlu dicek.
           </p>
         </header>
 
         <nav
           aria-label="Menu utama"
-          className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3"
         >
           <Link
             href="/pinjam"
-            className="flex min-h-20 items-center justify-center rounded-xl bg-green-700 px-6 py-5 text-center text-xl font-bold text-white shadow-sm transition-colors hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 sm:text-2xl"
+            className="flex min-h-16 items-center justify-center rounded-lg bg-green-700 px-5 py-4 text-center text-xl font-bold text-white shadow-sm hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 sm:text-2xl"
           >
             + Pinjamkan alat
           </Link>
           <Link
             href="/kembali"
-            className="flex min-h-20 items-center justify-center rounded-xl bg-blue-700 px-6 py-5 text-center text-xl font-bold text-white shadow-sm transition-colors hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:text-2xl"
+            className="flex min-h-16 items-center justify-center rounded-lg bg-blue-700 px-5 py-4 text-center text-xl font-bold text-white shadow-sm hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:text-2xl"
           >
-            ↩ Terima kembali
+            Kembalikan Alat
           </Link>
           <Link
             href="/kelola"
-            className="flex min-h-20 items-center justify-center rounded-xl border-2 border-slate-400 bg-white px-6 py-5 text-center text-xl font-bold text-slate-950 shadow-sm hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700 sm:col-span-2 sm:text-2xl lg:col-span-1"
+            className="flex min-h-16 items-center justify-center rounded-lg border-2 border-slate-400 bg-white px-5 py-4 text-center text-xl font-bold text-slate-950 shadow-sm hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700 sm:col-span-2 sm:text-2xl lg:col-span-1"
           >
-            ⚙ Kelola data
+            Tambah Data
           </Link>
         </nav>
 
         <section
           aria-labelledby="daftar-alat"
-          className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+          className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
         >
           <h2 id="daftar-alat" className="text-2xl font-bold sm:text-3xl">
             Daftar alat

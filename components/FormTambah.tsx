@@ -14,7 +14,7 @@ function Pesan({ h }: { h: Hasil }) {
   if (h.perluKonfirmasi) {
     return (
       <p className="mt-4 rounded-lg bg-yellow-100 p-4 text-lg font-semibold text-yellow-950">
-        ⚠ {h.pesan}
+        {h.pesan}
       </p>
     );
   }
@@ -48,7 +48,7 @@ export function FormTeknisi() {
   return (
     <form
       action={formAction}
-      className="rounded-xl border border-slate-300 bg-slate-50 p-4 sm:p-5"
+      className="rounded-xl border border-slate-300 bg-white p-4 sm:p-5"
     >
       <h2 className="text-xl font-bold text-slate-950 sm:text-2xl">
         + Tambah teknisi
@@ -73,7 +73,7 @@ export function FormTeknisi() {
         {daftarBagian.map((b) => (
           <label
             key={b}
-            className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-lg border-2 px-3 py-3 text-lg font-semibold text-slate-950 focus-within:outline-4 focus-within:outline-offset-2 focus-within:outline-blue-700 ${
+            className={`flex min-h-14 cursor-pointer items-center gap-2 rounded-lg border-2 px-3 py-3 text-lg font-semibold text-slate-950 focus-within:outline-4 focus-within:outline-offset-2 focus-within:outline-blue-700 ${
               bagian === b
                 ? "border-blue-700 bg-blue-50"
                 : "border-slate-400 bg-white hover:bg-slate-100"
@@ -96,7 +96,7 @@ export function FormTeknisi() {
         <button
           type="submit"
           disabled={pending}
-          className="min-h-12 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
+          className="min-h-14 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
         >
           {pending ? "Menyimpan..." : "Simpan teknisi"}
         </button>
@@ -106,7 +106,7 @@ export function FormTeknisi() {
             name="paksa"
             value="1"
             disabled={pending}
-            className="min-h-12 rounded-lg bg-yellow-600 px-6 py-3 text-lg font-bold text-white hover:bg-yellow-700 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-yellow-700 disabled:opacity-50"
+            className="min-h-14 rounded-lg bg-yellow-600 px-6 py-3 text-lg font-bold text-white hover:bg-yellow-700 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-yellow-700 disabled:opacity-50"
           >
             Tetap tambah
           </button>
@@ -136,7 +136,7 @@ export function FormAlat() {
   return (
     <form
       action={formAction}
-      className="rounded-xl border border-slate-300 bg-slate-50 p-4 sm:p-5"
+      className="rounded-xl border border-slate-300 bg-white p-4 sm:p-5"
     >
       <h2 className="text-xl font-bold text-slate-950 sm:text-2xl">
         + Tambah alat
@@ -181,7 +181,7 @@ export function FormAlat() {
         <button
           type="submit"
           disabled={pending}
-          className="min-h-12 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
+          className="min-h-14 rounded-lg bg-green-700 px-6 py-3 text-lg font-bold text-white hover:bg-green-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50"
         >
           {pending ? "Menyimpan..." : "Simpan alat"}
         </button>

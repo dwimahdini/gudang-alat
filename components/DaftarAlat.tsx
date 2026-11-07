@@ -80,36 +80,38 @@ export default function DaftarAlat({ items }: { items: ItemAlat[] }) {
 
   return (
     <div className="mt-5">
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div className="rounded-xl border-l-4 border-blue-600 bg-blue-50 p-4">
-          <p className="text-lg font-semibold text-blue-950">🔵 Dipinjam</p>
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <div className="rounded-lg border border-slate-300 border-l-4 border-l-blue-600 bg-white p-3">
+          <p className="text-lg font-semibold text-blue-950">Dipinjam</p>
           <p className="mt-1 text-3xl font-bold text-blue-950">
             {jumlahDipinjam}
           </p>
+          <p className="mt-1 text-base text-slate-800">Unit yang masih dipinjam</p>
         </div>
-        <div className="rounded-xl border-l-4 border-yellow-600 bg-yellow-50 p-4">
-          <p className="text-lg font-semibold text-yellow-950">
-            🟡 Perlu dicek
-          </p>
+        <div className="rounded-lg border border-slate-300 border-l-4 border-l-yellow-600 bg-white p-3">
+          <p className="text-lg font-semibold text-yellow-950">Perlu dicek</p>
           <p className="mt-1 text-3xl font-bold text-yellow-950">
             {hitung("perlu_dicek")}
           </p>
+          <p className="mt-1 text-base text-slate-800">Melewati batas kembali</p>
         </div>
-        <div className="rounded-xl border-l-4 border-red-600 bg-red-50 p-4">
-          <p className="text-lg font-semibold text-red-950">🔴 Rusak</p>
+        <div className="rounded-lg border border-slate-300 border-l-4 border-l-red-600 bg-white p-3">
+          <p className="text-lg font-semibold text-red-950">Rusak</p>
           <p className="mt-1 text-3xl font-bold text-red-950">
             {hitung("rusak")}
           </p>
+          <p className="mt-1 text-base text-slate-800">Tidak siap dipinjam</p>
         </div>
-        <div className="rounded-xl border-l-4 border-green-600 bg-green-50 p-4">
-          <p className="text-lg font-semibold text-green-950">🟢 Tersedia</p>
+        <div className="rounded-lg border border-slate-300 border-l-4 border-l-green-600 bg-white p-3">
+          <p className="text-lg font-semibold text-green-950">Tersedia</p>
           <p className="mt-1 text-3xl font-bold text-green-950">
             {hitung("tersedia")}
           </p>
+          <p className="mt-1 text-base text-slate-800">Siap dipinjam</p>
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <label
           htmlFor="cari-alat"
           className="mb-2 block text-lg font-semibold text-slate-900"
@@ -120,17 +122,17 @@ export default function DaftarAlat({ items }: { items: ItemAlat[] }) {
           id="cari-alat"
           value={cari}
           onChange={(e) => setCari(e.target.value)}
-          placeholder="Contoh: Kunci Pas atau Kunci Pas 01"
-          className="w-full rounded-lg border-2 border-slate-400 bg-white p-3 text-lg text-slate-950 placeholder:text-slate-600 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:max-w-md"
+          placeholder=""
+          className="w-full rounded-lg border-2 border-slate-400 bg-white p-3 text-lg text-slate-950 placeholder:text-slate-600 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         />
       </div>
 
-      <div className="my-4 flex flex-wrap gap-2 sm:gap-3">
+      <div className="my-3 flex flex-wrap gap-2">
         {tombol.map((t) => (
           <button
             key={t.nilai}
             onClick={() => setFilter(t.nilai)}
-            className={`min-h-12 rounded-lg border-2 px-4 py-2 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 ${
+            className={`min-h-14 rounded-lg border-2 px-4 py-2 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 ${
               filter === t.nilai
                 ? "border-slate-900 bg-slate-900 text-white"
                 : "border-slate-400 bg-white text-slate-950 hover:bg-slate-100"
@@ -170,7 +172,7 @@ export default function DaftarAlat({ items }: { items: ItemAlat[] }) {
                 onClick={() =>
                   setTerbuka(isTerbuka ? null : jenis.nama.toLowerCase())
                 }
-                className="flex min-h-20 w-full flex-wrap items-center justify-between gap-3 p-4 text-left hover:bg-slate-50 focus-visible:outline-4 focus-visible:outline-inset focus-visible:outline-blue-700 sm:p-5"
+                className="flex min-h-16 w-full flex-wrap items-center justify-between gap-3 p-3 text-left hover:bg-slate-50 focus-visible:outline-4 focus-visible:outline-inset focus-visible:outline-blue-700 sm:p-4"
               >
                 <span>
                   <span className="block text-xl font-bold text-slate-950 sm:text-2xl">
@@ -246,14 +248,14 @@ export default function DaftarAlat({ items }: { items: ItemAlat[] }) {
                             i.status === "perlu_dicek") && (
                             <Link
                               href={`/kembali/${i.loanId}`}
-                              className="inline-flex min-h-12 items-center rounded-lg bg-blue-700 px-5 py-3 text-lg font-bold text-white hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                              className="inline-flex min-h-14 items-center rounded-lg bg-blue-700 px-5 py-3 text-lg font-bold text-white hover:bg-blue-800 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
                             >
-                              Terima Kembali
+                              Kembalikan Alat
                             </Link>
                           )}
                           <Link
                             href={`/riwayat/${i.id}`}
-                            className="inline-flex min-h-12 items-center rounded-lg border-2 border-slate-500 bg-white px-5 py-3 text-lg font-bold text-slate-950 hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700"
+                            className="inline-flex min-h-14 items-center rounded-lg border-2 border-slate-500 bg-white px-5 py-3 text-lg font-bold text-slate-950 hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-slate-700"
                           >
                             Riwayat
                           </Link>

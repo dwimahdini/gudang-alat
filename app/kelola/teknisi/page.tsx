@@ -77,20 +77,20 @@ async function Daftar() {
 
 export default function Halaman() {
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8">
+    <main className="min-h-screen bg-slate-50 px-4 py-4 text-slate-950 sm:px-6 sm:py-5">
       <div className="mx-auto max-w-4xl">
         <Link
           href="/kelola"
-          className="inline-flex min-h-12 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+          className="inline-flex min-h-14 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         >
           ← Kembali ke Kelola Data
         </Link>
-        <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <section className="mt-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Kelola teknisi
           </h1>
           <NavKelola aktif="teknisi" />
-          <div className="mt-6">
+          <div className="mt-4">
             <FormTeknisi />
           </div>
           <Suspense

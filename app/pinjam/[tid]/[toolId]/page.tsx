@@ -4,9 +4,23 @@ import { supabase } from "@/lib/supabase";
 import { pinjamAlat } from "@/lib/actions";
 
 type P = Promise<{ tid: string; toolId: string }>;
+type Q = Promise<{ unitIds?: string | string[] }>;
 
-async function Konfirmasi({ params }: { params: P }) {
+async function Konfirmasi({
+  params,
+  searchParams,
+}: {
+  params: P;
+  searchParams: Q;
+}) {
   const { tid, toolId } = await params;
+  const query = await searchParams;
+  const unitIdsQuery = Array.isArray(query.unitIds)
+    ? query.unitIds[0]
+    : query.unitIds;
+  const unitIds = unitIdsQuery
+    ? [...new Set(unitIdsQuery.split(",").filter(Boolean))]
+    : [toolId];
 
   const [{ data: teknisi }, { data: alat }] = await Promise.all([
     supabase
@@ -14,22 +28,54 @@ async function Konfirmasi({ params }: { params: P }) {
       .select("name, department")
       .eq("id", tid)
       .single(),
-    supabase.from("tools").select("code, due_hours").eq("id", toolId).single(),
+    supabase
+      .from("tools")
+      .select("id, name, code, due_hours, status, active, loans(returned_at)")
+      .in("id", unitIds)
+      .order("code"),
   ]);
 
-  if (!teknisi || !alat)
+  type UnitPeminjaman = {
+    id: string;
+    name: string;
+    code: string;
+    due_hours: number;
+    status: string;
+    active: boolean;
+    loans: { returned_at: string | null }[];
+  };
+  const unitAlat = (alat ?? []) as unknown as UnitPeminjaman[];
+  const namaJenis = unitAlat[0]?.name.trim().toLowerCase();
+  const unitValid =
+    unitAlat.length === unitIds.length &&
+    unitAlat.every(
+      (unit) =>
+        unit.active &&
+        unit.status === "ok" &&
+        !unit.loans.some((loan) => loan.returned_at === null) &&
+        unit.name.trim().toLowerCase() === namaJenis,
+    );
+
+  if (!teknisi || !unitValid)
     return (
       <p className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-5 text-lg text-slate-800">
         Data tidak ditemukan.
       </p>
     );
 
+  const kodeRingkas = unitAlat
+    .slice(0, 3)
+    .map((unit) => unit.code)
+    .join(", ");
+
   return (
     <form action={pinjamAlat} className="mt-5">
       <input type="hidden" name="technicianId" value={tid} />
-      <input type="hidden" name="toolId" value={toolId} />
+      {unitAlat.map((unit) => (
+        <input key={unit.id} type="hidden" name="toolId" value={unit.id} />
+      ))}
 
-      <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 sm:p-6">
+      <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-4 sm:p-5">
         <p className="text-lg font-semibold text-slate-700">
           Periksa detail peminjaman
         </p>
@@ -37,14 +83,20 @@ async function Konfirmasi({ params }: { params: P }) {
           {teknisi.name}
         </p>
         <p className="mt-1 text-lg text-slate-800">{teknisi.department}</p>
-        <div className="mt-4 rounded-lg border border-green-700 bg-green-50 p-4">
+        <div className="mt-3 rounded-lg border border-green-700 bg-green-50 p-3">
           <p className="text-lg font-semibold text-green-950">Alat</p>
-          <p className="mt-1 text-2xl font-bold text-green-950">{alat.code}</p>
+          <p className="mt-1 text-2xl font-bold text-green-950">
+            {unitAlat.length} unit {unitAlat[0].name}
+          </p>
+          <p className="mt-1 text-lg text-green-950">
+            {kodeRingkas}
+            {unitAlat.length > 3 && ` dan ${unitAlat.length - 3} unit lainnya`}
+          </p>
         </div>
         <p className="mt-4 text-lg text-slate-800">
           Batas kembali:{" "}
           <span className="font-bold">
-            {alat.due_hours} jam dari sekarang
+            {unitAlat[0].due_hours} jam dari sekarang
           </span>
         </p>
       </div>
@@ -90,15 +142,21 @@ async function Konfirmasi({ params }: { params: P }) {
   );
 }
 
-export default function Halaman({ params }: { params: P }) {
+export default function Halaman({
+  params,
+  searchParams,
+}: {
+  params: P;
+  searchParams: Q;
+}) {
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8">
+    <main className="min-h-screen bg-slate-50 px-4 py-4 text-slate-950 sm:px-6 sm:py-5">
       <div className="mx-auto max-w-3xl">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <p className="text-lg font-semibold text-slate-700">
             Langkah terakhir
           </p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
             Periksa peminjaman
           </h1>
           <Suspense
@@ -108,7 +166,7 @@ export default function Halaman({ params }: { params: P }) {
               </p>
             }
           >
-            <Konfirmasi params={params} />
+            <Konfirmasi params={params} searchParams={searchParams} />
           </Suspense>
         </section>
       </div>

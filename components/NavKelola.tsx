@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NavKelola({ aktif }: { aktif: "teknisi" | "alat" }) {
   const gaya = (a: boolean) =>
-    `inline-flex min-h-12 items-center justify-center rounded-lg border-2 px-4 py-2 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 ${
+    `inline-flex min-h-14 items-center justify-center rounded-lg border-2 px-4 py-2 text-lg font-semibold focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 ${
       a
         ? "border-slate-900 bg-slate-900 text-white"
         : "border-slate-400 bg-white text-slate-950 hover:bg-slate-100"

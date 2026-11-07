@@ -48,9 +48,9 @@ async function Isi({ params }: { params: P }) {
       </div>
 
       {alat.status === "rusak" && (
-        <div className="mt-4 rounded-xl border-l-8 border-red-700 bg-red-50 p-4 text-red-950 sm:p-5">
+        <div className="mt-3 rounded-xl border-l-8 border-red-700 bg-red-50 p-4 text-red-950 sm:p-5">
           <p className="text-xl font-bold sm:text-2xl">
-            🔴 Alat ini berstatus rusak
+            Alat ini berstatus rusak
           </p>
           <p className="mt-2 text-lg">
             {terakhirRusak
@@ -83,7 +83,7 @@ async function Isi({ params }: { params: P }) {
                 rusak
                   ? "border-red-700 bg-red-50 text-red-950"
                   : r.returned_at
-                    ? "border-slate-500 bg-slate-50 text-slate-950"
+                    ? "border-slate-500 bg-white text-slate-950"
                     : "border-blue-700 bg-blue-50 text-blue-950"
               }`}
             >
@@ -101,7 +101,7 @@ async function Isi({ params }: { params: P }) {
               </p>
               {r.returned_at && (
                 <p className="mt-1 text-lg font-semibold">
-                  Kondisi: {rusak ? "🔴 Rusak" : "🟢 Baik"}
+                  Kondisi: {rusak ? "Rusak" : "Baik"}
                 </p>
               )}
               {r.note && <p className="mt-1 text-lg">Catatan: {r.note}</p>}
@@ -118,16 +118,16 @@ async function Isi({ params }: { params: P }) {
 
 export default function Halaman({ params }: { params: P }) {
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8">
+    <main className="min-h-screen bg-slate-50 px-4 py-4 text-slate-950 sm:px-6 sm:py-5">
       <div className="mx-auto max-w-4xl">
         <Link
           href="/"
-          className="inline-flex min-h-12 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+          className="inline-flex min-h-14 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         >
-          ← Kembali
+          Kembali
         </Link>
-        <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <section className="mt-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Riwayat pemakaian
           </h1>
           <Suspense

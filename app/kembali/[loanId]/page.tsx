@@ -57,7 +57,7 @@ async function Form({ params }: { params: P }) {
               required
               className="h-6 w-6 accent-green-700"
             />
-            🟢 Baik
+            Baik
           </label>
           <label className="flex min-h-16 cursor-pointer items-center gap-4 rounded-xl border-2 border-red-700 bg-red-50 p-4 text-xl font-bold text-red-950 hover:bg-red-100 has-[:checked]:ring-4 has-[:checked]:ring-red-700 focus-within:outline-4 focus-within:outline-offset-2 focus-within:outline-red-700">
             <input
@@ -67,7 +67,7 @@ async function Form({ params }: { params: P }) {
               required
               className="h-6 w-6 accent-red-700"
             />
-            🔴 Rusak
+            Rusak
           </label>
         </div>
       </fieldset>
@@ -107,16 +107,16 @@ async function Form({ params }: { params: P }) {
 
 export default function Halaman({ params }: { params: P }) {
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 sm:py-8">
+    <main className="min-h-screen bg-slate-50 px-4 py-4 text-slate-950 sm:px-6 sm:py-5">
       <div className="mx-auto max-w-3xl">
         <Link
           href="/kembali"
-          className="inline-flex min-h-12 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+          className="inline-flex min-h-14 items-center rounded-lg border-2 border-slate-400 bg-white px-4 py-2 text-lg font-semibold hover:bg-slate-100 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         >
-          ← Batal dan kembali
+          Batal dan kembali
         </Link>
-        <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <section className="mt-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Terima kembali
           </h1>
           <Suspense
